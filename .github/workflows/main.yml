@@ -19,6 +19,14 @@ jobs:
           dir=$(dirname "$(find . -name settings.gradle.kts | head -n 1)")
           echo "PROJECT_DIR=$dir" >> "$GITHUB_ENV"
 
+      - name: Download Xray core (libv2ray.aar)
+        run: |
+          mkdir -p "$PROJECT_DIR/app/libs"
+          base=https://github.com/2dust/AndroidLibXrayLite/releases
+          curl -fL --retry 3 -o "$PROJECT_DIR/app/libs/libv2ray.aar" "$base/download/v26.8.20/libv2ray.aar" \
+            || curl -fL --retry 3 -o "$PROJECT_DIR/app/libs/libv2ray.aar" "$base/latest/download/libv2ray.aar"
+          ls -l "$PROJECT_DIR/app/libs"
+
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 17 }
 
